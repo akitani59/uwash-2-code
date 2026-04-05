@@ -41,6 +41,36 @@ const articles = [
     description: 'คู่มือฉบับสมบูรณ์สำหรับการเปิดร้านสะดวกซัก ตั้งแต่เลือกทำเล จดทะเบียน เลือกเครื่อง ไปจนถึงการตลาด กับแฟรนไชส์ Uwash',
     lastModified: '2026-03-28',
   },
+  {
+    slug: 'ร้านสะดวกซัก-24-ชั่วโมง-ทำกำไร',
+    title: 'ร้านสะดวกซัก 24 ชั่วโมง ทำกำไรอย่างไร? ไม่ต้องมีพนักงาน',
+    description: 'ร้านสะดวกซัก 24 ชั่วโมง Uwash ใช้ระบบ Smart Kiosk ไม่ต้องมีพนักงาน รายได้ 40,000-80,000 บาท/เดือน',
+    lastModified: '2026-04-05',
+  },
+  {
+    slug: 'smart-kiosk-ระบบหยอดเหรียญอัจฉริยะ',
+    title: 'Smart Kiosk คืออะไร? ระบบหยอดเหรียญอัจฉริยะ สำหรับร้านสะดวกซัก 2026',
+    description: 'Smart Kiosk ระบบหยอดเหรียญอัจฉริยะ Uwash หน้าจอสัมผัส รับเงินสดและ QR Payment',
+    lastModified: '2026-04-05',
+  },
+  {
+    slug: 'ทำเลเปิดร้านสะดวกซัก-เลือกอย่างไร',
+    title: 'ทำเลเปิดร้านสะดวกซัก เลือกอย่างไรให้รวย? 10 ทำเลทองปี 2026',
+    description: 'ทำเลเปิดร้านสะดวกซัก 10 ทำเลทอง ใกล้คอนโด หอพัก มหาวิทยาลัย Uwash วิเคราะห์ทำเลฟรี',
+    lastModified: '2026-04-05',
+  },
+  {
+    slug: 'เครื่องซักผ้า-lg-commercial-vs-เครื่องทั่วไป',
+    title: 'เครื่องซักผ้า LG Commercial vs เครื่องทั่วไป ต่างกันอย่างไร?',
+    description: 'เปรียบเทียบเครื่องซักผ้า LG Commercial กับเครื่องทั่วไป ทำไม Uwash เลือกใช้ LG Commercial 13-18KG',
+    lastModified: '2026-04-05',
+  },
+  {
+    slug: 'รายได้ร้านสะดวกซัก-เดือนละเท่าไหร่',
+    title: 'รายได้ร้านสะดวกซัก เดือนละเท่าไหร่? วิเคราะห์ตัวเลขจริงปี 2026',
+    description: 'รายได้ร้านสะดวกซัก วิเคราะห์ตัวเลขจริงปี 2026 กำไรสุทธิ ROI คืนทุนกี่เดือน กับ Uwash',
+    lastModified: '2026-04-05',
+  },
 ];
 
 // ชื่อเว็บไซต์หลัก
@@ -51,18 +81,13 @@ const SITE_BASE_URL = 'https://www.uwashthai.com';
  * จับคู่ slug จาก URL แล้วส่งข้อมูลบทความไปยังหน้าเพจ
  */
 export function blog_Router(request) {
-  // ดึง slug จากเส้นทาง URL
   const slug = request.path[0];
-
-  // ค้นหาบทความจาก slug
   const article = articles.find((a) => a.slug === slug);
 
   if (!article) {
-    // ไม่พบบทความ - ส่งกลับหน้า 404
     return notFound();
   }
 
-  // สร้าง SEO head tags สำหรับบทความ
   const seoData = {
     title: `${article.title} | Uwash Thailand`,
     description: article.description,
@@ -80,7 +105,6 @@ export function blog_Router(request) {
     ],
   };
 
-  // ส่งข้อมูลบทความไปยังหน้า "blog"
   return ok('blog', article, seoData);
 }
 
@@ -89,7 +113,6 @@ export function blog_Router(request) {
  * สร้างรายการ sitemap ของบทความทั้งหมดเพื่อช่วย SEO
  */
 export function blog_SiteMap(sitemapRequest) {
-  // สร้าง sitemap entries จากบทความทั้งหมด
   const entries = articles.map((article) => {
     const entry = new WixRouterSitemapEntry(`blog/${article.slug}`);
     entry.title = article.title;
@@ -104,88 +127,25 @@ export function blog_SiteMap(sitemapRequest) {
 
 // ข้อมูลหน้าคงที่ทั้งหมดของเว็บไซต์
 const staticPages = [
-  {
-    url: '/',
-    title: 'Uwash Thailand - แฟรนไชส์สะดวกซักอันดับ 1',
-    priority: 1.0,
-    changeFrequency: 'daily',
-  },
-  {
-    url: '/franchise-สะดวกซัก-uwash',
-    title: 'แฟรนไชส์สะดวกซัก Uwash',
-    priority: 0.9,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/ลงทุนแฟรนไชส์ร้านซักผ้า',
-    title: 'ลงทุนแฟรนไชส์ร้านซักผ้า',
-    priority: 0.9,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/ร้านสะดวกซักลงทุนเท่าไหร่',
-    title: 'ร้านสะดวกซักลงทุนเท่าไหร่',
-    priority: 0.9,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/รายละเอียดการลงทุน',
-    title: 'รายละเอียดการลงทุนแฟรนไชส์ Uwash',
-    priority: 0.8,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/จุดเด่นสะดวกซัก-uwash',
-    title: 'จุดเด่นสะดวกซัก Uwash',
-    priority: 0.7,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/aboutus',
-    title: 'เกี่ยวกับ Uwash Thailand',
-    priority: 0.6,
-    changeFrequency: 'monthly',
-  },
-  {
-    url: '/branchesตำแหน่งที่ตั้ง-locations',
-    title: 'สาขาและตำแหน่งที่ตั้ง Uwash',
-    priority: 0.7,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/ulaundry-full-service',
-    title: 'ULaundry Full Service - บริการซักอบรีดเต็มรูปแบบ',
-    priority: 0.7,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/ulaundry-details',
-    title: 'รายละเอียด ULaundry',
-    priority: 0.6,
-    changeFrequency: 'monthly',
-  },
-  {
-    url: '/newsandpromotion',
-    title: 'ข่าวสารและโปรโมชั่น Uwash',
-    priority: 0.5,
-    changeFrequency: 'weekly',
-  },
-  {
-    url: '/packageสะดวกซักuwashราคาเท่าไหร่',
-    title: 'แพ็คเกจสะดวกซัก Uwash ราคาเท่าไหร่',
-    priority: 0.8,
-    changeFrequency: 'weekly',
-  },
+  { url: '/', title: 'Uwash Thailand - แฟรนไชส์สะดวกซักอันดับ 1', priority: 1.0, changeFrequency: 'daily' },
+  { url: '/franchise-สะดวกซัก-uwash', title: 'แฟรนไชส์สะดวกซัก Uwash', priority: 0.9, changeFrequency: 'weekly' },
+  { url: '/ลงทุนแฟรนไชส์ร้านซักผ้า', title: 'ลงทุนแฟรนไชส์ร้านซักผ้า', priority: 0.9, changeFrequency: 'weekly' },
+  { url: '/ร้านสะดวกซักลงทุนเท่าไหร่', title: 'ร้านสะดวกซักลงทุนเท่าไหร่', priority: 0.9, changeFrequency: 'weekly' },
+  { url: '/รายละเอียดการลงทุน', title: 'รายละเอียดการลงทุนแฟรนไชส์ Uwash', priority: 0.8, changeFrequency: 'weekly' },
+  { url: '/จุดเด่นสะดวกซัก-uwash', title: 'จุดเด่นสะดวกซัก Uwash', priority: 0.7, changeFrequency: 'weekly' },
+  { url: '/aboutus', title: 'เกี่ยวกับ Uwash Thailand', priority: 0.6, changeFrequency: 'monthly' },
+  { url: '/branchesตำแหน่งที่ตั้ง-locations', title: 'สาขาและตำแหน่งที่ตั้ง Uwash', priority: 0.7, changeFrequency: 'weekly' },
+  { url: '/ulaundry-full-service', title: 'ULaundry Full Service - บริการซักอบรีดเต็มรูปแบบ', priority: 0.7, changeFrequency: 'weekly' },
+  { url: '/ulaundry-details', title: 'รายละเอียด ULaundry', priority: 0.6, changeFrequency: 'monthly' },
+  { url: '/newsandpromotion', title: 'ข่าวสารและโปรโมชั่น Uwash', priority: 0.5, changeFrequency: 'weekly' },
+  { url: '/packageสะดวกซักuwashราคาเท่าไหร่', title: 'แพ็คเกจสะดวกซัก Uwash ราคาเท่าไหร่', priority: 0.8, changeFrequency: 'weekly' },
 ];
 
 /**
  * ฟังก์ชัน SiteMap สำหรับหน้าคงที่ทั้งหมด
- * รวบรวม URL ของทุกหน้าในเว็บไซต์เพื่อช่วยให้ Google ทำ index ได้ครบถ้วน
  */
 export function sitemap_SiteMap(sitemapRequest) {
-  // สร้าง sitemap entries จากหน้าคงที่ทั้งหมด
   const entries = staticPages.map((page) => {
-    // ตัด "/" นำหน้าออกสำหรับ WixRouterSitemapEntry (ยกเว้นหน้าแรก)
     const pagePath = page.url === '/' ? '' : page.url.substring(1);
     const entry = new WixRouterSitemapEntry(pagePath);
     entry.title = page.title;
