@@ -1,0 +1,21 @@
+name: Control CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      # --ignore-scripts: postinstall runs `wix sync-types`, which needs a Wix login
+      - run: npm ci --ignore-scripts
+      - name: Dependency audit (fails on high or critical)
+        run: npm audit --audit-level=high
+      - run: npm run lint
